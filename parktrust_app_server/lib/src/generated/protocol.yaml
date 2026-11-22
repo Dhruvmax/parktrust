@@ -1,0 +1,61 @@
+alert:
+  - createAlert:
+  - incomingAlerts:
+  - sentAlerts:
+  - reply:
+  - resolve:
+  - watchIncoming:
+  - watchSent:
+  - watchThread:
+emailIdp:
+  - startOtpLogin:
+  - verifyOtpLoginCode:
+  - finishOtpLogin:
+  - finishOtpRegistration:
+  - login:
+  - startRegistration:
+  - verifyRegistrationCode:
+  - finishRegistration:
+  - startPasswordReset:
+  - verifyPasswordResetCode:
+  - finishPasswordReset:
+  - hasAccount:
+jwtRefresh:
+  - refreshAccessToken:
+booking:
+  - book:
+  - getBooking:
+  - myBookings:
+  - hostBookings:
+  - checkIn:
+  - checkOut:
+  - reportOverstay:
+  - updateLocation:
+  - extend:
+  - pay:
+  - cancel:
+  - review:
+  - report:
+greeting:
+  - hello:
+listing:
+  - createListing:
+  - myListings:
+  - ownerQr:
+  - setActive:
+  - search:
+publicLot:
+  - cities:
+  - lots:
+  - search:
+subscription:
+  - plans:
+  - mySubscription:
+  - subscribe:
+trust:
+  - trust:
+  - reviews:
+vehicle:
+  - addVehicle:
+  - myVehicles:
+  - removeVehicle:

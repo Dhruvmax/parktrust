@@ -1,0 +1,7 @@
+### One alert with all its replies, from the point of view of the viewer.
+class: AlertThread
+fields:
+  alert: BlockAlert
+  replies: List<AlertReply>
+  viewerIsOwner: bool
+  viewerIsReporter: bool

@@ -1,0 +1,16 @@
+### A complaint one side files about the other after a booking ends.
+class: Report
+table: report
+fields:
+  bookingId: int
+  reporterId: UuidValue
+  reportedId: UuidValue
+  reason: String
+  details: String?
+  createdAt: DateTime, default=now
+indexes:
+  report_booking_reporter_idx:
+    fields: bookingId, reporterId
+    unique: true
+  report_reported_idx:
+    fields: reportedId

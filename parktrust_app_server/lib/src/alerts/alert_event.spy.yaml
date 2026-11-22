@@ -1,0 +1,6 @@
+### A live update pushed to the phones. kind is new_alert, reply or status.
+class: AlertEvent
+fields:
+  kind: String
+  alert: BlockAlert
+  reply: AlertReply?

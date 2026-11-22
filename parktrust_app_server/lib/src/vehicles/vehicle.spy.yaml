@@ -1,0 +1,14 @@
+### A number plate registered by a signed-in user, so alerts can reach them.
+class: Vehicle
+table: vehicle
+fields:
+  ownerId: UuidValue
+  plate: String
+  label: String?
+  createdAt: DateTime, default=now
+indexes:
+  vehicle_plate_idx:
+    fields: plate
+    unique: true
+  vehicle_owner_idx:
+    fields: ownerId

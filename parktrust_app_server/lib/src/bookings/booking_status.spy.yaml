@@ -1,0 +1,6 @@
+enum: BookingStatus
+values:
+  - confirmed
+  - checkedIn
+  - completed
+  - cancelled

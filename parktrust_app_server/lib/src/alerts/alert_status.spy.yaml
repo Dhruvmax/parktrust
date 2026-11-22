@@ -1,0 +1,6 @@
+### Where a blocked-car alert stands.
+enum: AlertStatus
+values:
+  - open
+  - acknowledged
+  - resolved

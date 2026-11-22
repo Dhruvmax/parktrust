@@ -1,0 +1,21 @@
+### A public parking lot (mall, station, airport, hospital...). Sample data.
+class: PublicLot
+table: public_lot
+fields:
+  name: String
+  category: String
+  city: String
+  area: String
+  address: String
+  latitude: double
+  longitude: double
+  ratePerHour: int?
+  capacity: int?
+  hasEv: bool
+  evNote: String?
+  hours: String?
+  priceNote: String?
+  bookable: bool
+indexes:
+  public_lot_city_idx:
+    fields: city

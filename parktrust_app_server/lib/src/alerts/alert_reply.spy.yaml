@@ -1,0 +1,12 @@
+### The owner's answer to an alert ("coming now", "5 min", ...).
+class: AlertReply
+table: alert_reply
+fields:
+  alertId: int
+  ownerId: UuidValue
+  message: String
+  etaMinutes: int?
+  createdAt: DateTime, default=now
+indexes:
+  alert_reply_alert_idx:
+    fields: alertId

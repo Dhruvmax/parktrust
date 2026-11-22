@@ -1,0 +1,30 @@
+services:
+  # Development services
+  postgres:
+    image: ghcr.io/serverpod/postgres:16
+    ports:
+      - "8090:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: parktrust_app
+      POSTGRES_PASSWORD: "VEIUY66OZwyNdgb6tahtdzEVnZdyKiOf"
+    volumes:
+      - parktrust_app_data:/var/lib/postgresql/data
+
+
+  # Test services
+  postgres_test:
+    image: ghcr.io/serverpod/postgres:16
+    ports:
+      - "9090:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: parktrust_app_test
+      POSTGRES_PASSWORD: "7bS0OAME0fD6Ub5lCw4_fa4QhkgiZgFn"
+    volumes:
+      - parktrust_app_test_data:/var/lib/postgresql/data
+
+
+volumes:
+  parktrust_app_data:
+  parktrust_app_test_data:

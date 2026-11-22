@@ -1,0 +1,20 @@
+### A report that a car is blocking someone in.
+class: BlockAlert
+table: block_alert
+fields:
+  reporterId: UuidValue
+  ownerId: UuidValue?
+  plate: String
+  latitude: double?
+  longitude: double?
+  photo: ByteData?
+  note: String?
+  status: AlertStatus
+  createdAt: DateTime, default=now
+indexes:
+  block_alert_reporter_idx:
+    fields: reporterId
+  block_alert_owner_idx:
+    fields: ownerId
+  block_alert_plate_idx:
+    fields: plate

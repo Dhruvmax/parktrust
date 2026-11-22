@@ -1,0 +1,23 @@
+### A parking space a driver offers to others (home, society, office).
+class: Listing
+table: listing
+fields:
+  ownerId: UuidValue
+  title: String
+  description: String?
+  area: String
+  address: String
+  latitude: double
+  longitude: double
+  ratePerHour: int
+  capacity: int
+  hasEv: bool
+  hasCctv: bool
+  covered: bool
+  gated: bool
+  active: bool
+  qrSecret: String, default=''
+  createdAt: DateTime, default=now
+indexes:
+  listing_owner_idx:
+    fields: ownerId

@@ -1,0 +1,7 @@
+### A booking together with its listing, for screens.
+class: BookingView
+fields:
+  booking: Booking
+  listing: Listing
+  reviewedByMe: bool
+  reportedByMe: bool

@@ -1,0 +1,16 @@
+### A rating one side gives the other after a completed booking.
+class: Review
+table: review
+fields:
+  bookingId: int
+  reviewerId: UuidValue
+  revieweeId: UuidValue
+  rating: int
+  comment: String?
+  createdAt: DateTime, default=now
+indexes:
+  review_booking_reviewer_idx:
+    fields: bookingId, reviewerId
+    unique: true
+  review_reviewee_idx:
+    fields: revieweeId

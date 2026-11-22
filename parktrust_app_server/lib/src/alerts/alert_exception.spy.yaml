@@ -1,0 +1,4 @@
+### A friendly, safe-to-show error from the alert and vehicle endpoints.
+exception: AlertException
+fields:
+  message: String

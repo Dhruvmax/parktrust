@@ -1,0 +1,13 @@
+### A membership. Drivers and hosts pay a weekly, monthly or yearly fee instead of a fee per booking.
+class: Subscription
+table: subscription
+fields:
+  userId: UuidValue
+  plan: String
+  amount: int
+  startsAt: DateTime
+  endsAt: DateTime
+  createdAt: DateTime, default=now
+indexes:
+  subscription_user_idx:
+    fields: userId

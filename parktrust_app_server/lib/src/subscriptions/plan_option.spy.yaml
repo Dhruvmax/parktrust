@@ -1,0 +1,7 @@
+### A membership plan people can choose.
+class: PlanOption
+fields:
+  code: String
+  name: String
+  price: int
+  days: int

@@ -1,0 +1,10 @@
+### A person's trust score and what it is made of.
+class: TrustProfile
+fields:
+  score: int
+  label: String
+  completedBookings: int
+  ratingCount: int
+  averageRating: double?
+  overstays: int
+  reports: int

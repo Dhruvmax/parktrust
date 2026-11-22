@@ -1,0 +1,35 @@
+### One reservation of a listing by a driver. Amounts are in rupees.
+class: Booking
+table: booking
+fields:
+  listingId: int
+  driverId: UuidValue
+  ownerId: UuidValue
+  plate: String
+  startTime: DateTime
+  endTime: DateTime
+  ratePerHour: int
+  baseAmount: int
+  commission: int
+  status: BookingStatus
+  paymentStatus: String
+  checkInTime: DateTime?
+  checkOutTime: DateTime?
+  overstayMinutes: int, default=0
+  overstayAmount: int, default=0
+  refundAmount: int, default=0
+  extensionCount: int, default=0
+  ownerPenaltyShare: int, default=0
+  overstayReportedAt: DateTime?
+  overstayPhoto: ByteData?
+  lastLatitude: double?
+  lastLongitude: double?
+  lastLocationAt: DateTime?
+  createdAt: DateTime, default=now
+indexes:
+  booking_listing_idx:
+    fields: listingId
+  booking_driver_idx:
+    fields: driverId
+  booking_owner_idx:
+    fields: ownerId
