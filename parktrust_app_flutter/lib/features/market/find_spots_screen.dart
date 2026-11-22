@@ -82,6 +82,7 @@ class _FindSpotsScreenState extends ConsumerState<FindSpotsScreen> {
               },
             ),
             data: (spaceList) {
+              if (lots.isLoading) return const LoadingView();
               final lotList = lots.value ?? const [];
               if (spaceList.isEmpty && lotList.isEmpty && mine.isEmpty) {
                 return EmptyView(

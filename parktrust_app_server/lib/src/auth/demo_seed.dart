@@ -4,6 +4,8 @@ import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
 import 'package:serverpod_auth_idp_server/providers/email.dart';
 
 import '../generated/protocol.dart';
+import '../listings/city_listings_data.dart';
+import '../listings/listing_endpoint.dart';
 
 const demoPassword = 'demo1234';
 
@@ -62,6 +64,39 @@ Future<void> seedDemoData(Serverpod pod) async {
             .map(
               (r) => Listing(
                 ownerId: owner,
+                title: r[0] as String,
+                description: r[1] as String?,
+                area: r[2] as String,
+                address: r[3] as String,
+                latitude: (r[4] as num).toDouble(),
+                longitude: (r[5] as num).toDouble(),
+                ratePerHour: (r[6] as num).toInt(),
+                capacity: (r[7] as num).toInt(),
+                hasEv: r[8] == 1,
+                hasCctv: r[9] == 1,
+                covered: r[10] == 1,
+                gated: r[11] == 1,
+                active: true,
+              ),
+            )
+            .toList(),
+      );
+    }
+
+    // Sample spaces in big cities, owned by the fixed demo host.
+    final host = ListingEndpoint.demoHost;
+    final hostCount = await Listing.db.count(
+      session,
+      where: (t) => t.ownerId.equals(host),
+    );
+    // 14 = the original Pune demo spaces, loaded on the first search.
+    if (hostCount == 14) {
+      await Listing.db.insert(
+        session,
+        cityListingRows
+            .map(
+              (r) => Listing(
+                ownerId: host,
                 title: r[0] as String,
                 description: r[1] as String?,
                 area: r[2] as String,
