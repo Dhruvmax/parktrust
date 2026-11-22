@@ -29,8 +29,29 @@ void run(List<String> args) async {
       // staging and production they are sent through the Serverpod Cloud email
       // service. If you want to use a custom provider for sending emails, use
       // `EmailIdpConfigFromPasswords`.
-      ServerpodCloudEmailIdpConfig(
-        appDisplayName: 'parktrust_app',
+      // Hosted on Render (not Serverpod Cloud): there is no email service, so
+      // verification codes are printed to the server log instead of emailed.
+      EmailIdpConfigFromPasswords(
+        sendRegistrationVerificationCode: (
+          Session session, {
+          required String email,
+          required UuidValue accountRequestId,
+          required String verificationCode,
+          required Transaction? transaction,
+        }) {
+          // ignore: avoid_print
+          print('VERIFICATION CODE for $email: $verificationCode');
+        },
+        sendPasswordResetVerificationCode: (
+          Session session, {
+          required String email,
+          required UuidValue passwordResetRequestId,
+          required String verificationCode,
+          required Transaction? transaction,
+        }) {
+          // ignore: avoid_print
+          print('PASSWORD RESET CODE for $email: $verificationCode');
+        },
       ),
     ],
   );
