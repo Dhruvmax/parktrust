@@ -163,109 +163,11 @@ class EndpointAlert extends _isc.EndpointRef {
 ///
 /// Extend [EmailIdpBaseEndpoint] instead for the password based sign-in only.
 /// {@category Endpoint}
-class EndpointEmailIdp extends _iaic.EndpointEmailOtpIdpBase {
+class EndpointEmailIdp extends _iaic.EndpointEmailIdpBase {
   EndpointEmailIdp(_isc.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'emailIdp';
-
-  /// Starts a passwordless login by sending a one-time password to [email].
-  ///
-  /// The code is sent whether or not an account is registered for the email.
-  /// If none is, verifying the code lets the user create a new account.
-  ///
-  /// Always returns a login request ID, which must be passed to
-  /// [verifyOtpLoginCode] together with the one-time password.
-  ///
-  /// Throws an [EmailAccountRequestException] in case of errors, with reason:
-  /// - [EmailAccountRequestExceptionReason.policyViolation] if the email is
-  ///   not valid.
-  /// - [EmailAccountRequestExceptionReason.tooManyAttempts] if too many
-  ///   one-time passwords have been requested for the email.
-  @override
-  _ida.Future<_isc.UuidValue> startOtpLogin({required String email}) =>
-      caller.callServerEndpoint<_isc.UuidValue>(
-        'emailIdp',
-        'startOtpLogin',
-        {'email': email},
-      );
-
-  /// Verifies a one-time password and returns a token to complete the login.
-  ///
-  /// If [EmailAccountOtpVerificationResult.accountExists] is `true`, pass the
-  /// token to [finishOtpLogin] to sign in. Otherwise, have the user accept the
-  /// terms (and optionally set a password if
-  /// [EmailAccountOtpVerificationResult.allowPassword] is `true`) and pass it
-  /// to [finishOtpRegistration] to create the account.
-  ///
-  /// Throws an [EmailAccountRequestException] in case of errors, with reason:
-  /// - [EmailAccountRequestExceptionReason.expired] if the login request has
-  ///   already expired.
-  /// - [EmailAccountRequestExceptionReason.tooManyAttempts] if the user has
-  ///   made too many attempts to verify the code.
-  /// - [EmailAccountRequestExceptionReason.invalid] if no request exists for
-  ///   the given [otpLoginRequestId] or [verificationCode] is invalid.
-  @override
-  _ida.Future<_iaic.EmailAccountOtpVerificationResult> verifyOtpLoginCode({
-    required _isc.UuidValue otpLoginRequestId,
-    required String verificationCode,
-  }) => caller.callServerEndpoint<_iaic.EmailAccountOtpVerificationResult>(
-    'emailIdp',
-    'verifyOtpLoginCode',
-    {
-      'otpLoginRequestId': otpLoginRequestId,
-      'verificationCode': verificationCode,
-    },
-  );
-
-  /// Completes a passwordless login for an existing account and returns a new
-  /// session.
-  ///
-  /// Throws an [EmailAccountRequestException] in case of errors, with reason:
-  /// - [EmailAccountRequestExceptionReason.expired] if the login request has
-  ///   already expired.
-  /// - [EmailAccountRequestExceptionReason.invalid] if the [otpLoginToken] is
-  ///   invalid or no account exists for the email.
-  ///
-  /// Throws an [AuthUserBlockedException] if the auth user is blocked.
-  @override
-  _ida.Future<_iacc.AuthSuccess> finishOtpLogin({
-    required String otpLoginToken,
-  }) => caller.callServerEndpoint<_iacc.AuthSuccess>(
-    'emailIdp',
-    'finishOtpLogin',
-    {'otpLoginToken': otpLoginToken},
-  );
-
-  /// Completes a passwordless login for an email without an account, by
-  /// creating a new auth user with a profile and attaching the verified email
-  /// to it.
-  ///
-  /// Must only be called after the user accepted the terms. The [password] is
-  /// optional, and may only be set if
-  /// [EmailAccountOtpVerificationResult.allowPassword] was `true`.
-  ///
-  /// Throws an [EmailAccountRequestException] in case of errors, with reason:
-  /// - [EmailAccountRequestExceptionReason.expired] if the login request has
-  ///   already expired.
-  /// - [EmailAccountRequestExceptionReason.policyViolation] if a password is
-  ///   given but not allowed, or it does not comply with the password policy.
-  /// - [EmailAccountRequestExceptionReason.invalid] if the [otpLoginToken] is
-  ///   invalid or an account already exists for the email.
-  ///
-  /// Returns a session for the newly created user.
-  @override
-  _ida.Future<_iacc.AuthSuccess> finishOtpRegistration({
-    required String otpLoginToken,
-    String? password,
-  }) => caller.callServerEndpoint<_iacc.AuthSuccess>(
-    'emailIdp',
-    'finishOtpRegistration',
-    {
-      'otpLoginToken': otpLoginToken,
-      'password': password,
-    },
-  );
 
   /// Logs in the user and returns a new session.
   ///
@@ -480,6 +382,48 @@ class EndpointJwtRefresh extends _iacc.EndpointRefreshJwtTokens {
         {'refreshToken': refreshToken},
         authenticated: false,
       );
+}
+
+/// TEMPORARY seed endpoint — delete after seeding is done.
+/// Call via: POST https://parktrust.api.serverpod.space/seed/resetDemoPasswords
+/// Body: {"secret": "parktrust_seed_2024"}
+/// {@category Endpoint}
+class EndpointSeed extends _isc.EndpointRef {
+  EndpointSeed(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'seed';
+
+  /// Resets all demo account passwords to 'demo1234' using server-side hashing.
+  _ida.Future<String> resetDemoPasswords(String secret) =>
+      caller.callServerEndpoint<String>(
+        'seed',
+        'resetDemoPasswords',
+        {'secret': secret},
+      );
+}
+
+/// Creates an email + password account directly, with no verification code.
+/// The app then signs in with the normal `emailIdp.login(email, password)`.
+/// {@category Endpoint}
+class EndpointSignup extends _isc.EndpointRef {
+  EndpointSignup(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'signup';
+
+  /// Returns 'ok' on success, otherwise a short message to show the user.
+  _ida.Future<String> register(
+    String email,
+    String password,
+  ) => caller.callServerEndpoint<String>(
+    'signup',
+    'register',
+    {
+      'email': email,
+      'password': password,
+    },
+  );
 }
 
 /// Booking a space, QR check-in and check-out, extending, overstay penalties,
@@ -930,6 +874,8 @@ class Client extends _isc.ServerpodClientShared {
     alert = EndpointAlert(this);
     emailIdp = EndpointEmailIdp(this);
     jwtRefresh = EndpointJwtRefresh(this);
+    seed = EndpointSeed(this);
+    signup = EndpointSignup(this);
     booking = EndpointBooking(this);
     greeting = EndpointGreeting(this);
     listing = EndpointListing(this);
@@ -945,6 +891,10 @@ class Client extends _isc.ServerpodClientShared {
   late final EndpointEmailIdp emailIdp;
 
   late final EndpointJwtRefresh jwtRefresh;
+
+  late final EndpointSeed seed;
+
+  late final EndpointSignup signup;
 
   late final EndpointBooking booking;
 
@@ -967,6 +917,8 @@ class Client extends _isc.ServerpodClientShared {
     'alert': alert,
     'emailIdp': emailIdp,
     'jwtRefresh': jwtRefresh,
+    'seed': seed,
+    'signup': signup,
     'booking': booking,
     'greeting': greeting,
     'listing': listing,

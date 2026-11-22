@@ -18,8 +18,9 @@ import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
     as _iais;
 import '../alerts/alert_endpoint.dart' as _itgxyvy1;
 import '../auth/email_idp_endpoint.dart' as _iuc1hd5t;
-import '../auth/seed_endpoint.dart' as _iseedep;
 import '../auth/jwt_refresh_endpoint.dart' as _inwq3ztq;
+import '../auth/seed_endpoint.dart' as _i7y2vf1h;
+import '../auth/signup_endpoint.dart' as _ikssxzfu;
 import '../bookings/booking_endpoint.dart' as _i7f5j1eo;
 import '../greetings/greeting_endpoint.dart' as _il624ik7;
 import '../listings/listing_endpoint.dart' as _i9qx1xff;
@@ -57,6 +58,18 @@ class Endpoints extends _is.EndpointDispatch {
         ..initialize(
           server,
           'jwtRefresh',
+          null,
+        ),
+      'seed': _i7y2vf1h.SeedEndpoint()
+        ..initialize(
+          server,
+          'seed',
+          null,
+        ),
+      'signup': _ikssxzfu.SignupEndpoint()
+        ..initialize(
+          server,
+          'signup',
           null,
         ),
       'booking': _i7f5j1eo.BookingEndpoint()
@@ -101,37 +114,7 @@ class Endpoints extends _is.EndpointDispatch {
           'vehicle',
           null,
         ),
-      'seed': _iseedep.SeedEndpoint()
-        ..initialize(
-          server,
-          'seed',
-          null,
-        ),
     };
-    connectors['seed'] = _is.EndpointConnector(
-      name: 'seed',
-      endpoint: endpoints['seed']!,
-      methodConnectors: {
-        'resetDemoPasswords': _is.MethodConnector(
-          name: 'resetDemoPasswords',
-          params: {
-            'secret': _is.ParameterDescription(
-              name: 'secret',
-              type: _is.getType<String>(),
-              nullable: false,
-            ),
-          },
-          call: (
-            _is.Session session,
-            Map<String, dynamic> params,
-          ) async =>
-              (endpoints['seed'] as _iseedep.SeedEndpoint).resetDemoPasswords(
-                session,
-                params['secret'],
-              ),
-        ),
-      },
-    );
     connectors['alert'] = _is.EndpointConnector(
       name: 'alert',
       endpoint: endpoints['alert']!,
@@ -501,6 +484,62 @@ class Endpoints extends _is.EndpointDispatch {
                         session,
                         refreshToken: params['refreshToken'],
                       ),
+        ),
+      },
+    );
+    connectors['seed'] = _is.EndpointConnector(
+      name: 'seed',
+      endpoint: endpoints['seed']!,
+      methodConnectors: {
+        'resetDemoPasswords': _is.MethodConnector(
+          name: 'resetDemoPasswords',
+          params: {
+            'secret': _is.ParameterDescription(
+              name: 'secret',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['seed'] as _i7y2vf1h.SeedEndpoint)
+                  .resetDemoPasswords(
+                    session,
+                    params['secret'],
+                  ),
+        ),
+      },
+    );
+    connectors['signup'] = _is.EndpointConnector(
+      name: 'signup',
+      endpoint: endpoints['signup']!,
+      methodConnectors: {
+        'register': _is.MethodConnector(
+          name: 'register',
+          params: {
+            'email': _is.ParameterDescription(
+              name: 'email',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+            'password': _is.ParameterDescription(
+              name: 'password',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['signup'] as _ikssxzfu.SignupEndpoint).register(
+                    session,
+                    params['email'],
+                    params['password'],
+                  ),
         ),
       },
     );

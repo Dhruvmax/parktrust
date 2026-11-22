@@ -8,10 +8,6 @@ alert:
   - watchSent:
   - watchThread:
 emailIdp:
-  - startOtpLogin:
-  - verifyOtpLoginCode:
-  - finishOtpLogin:
-  - finishOtpRegistration:
   - login:
   - startRegistration:
   - verifyRegistrationCode:
@@ -22,6 +18,10 @@ emailIdp:
   - hasAccount:
 jwtRefresh:
   - refreshAccessToken:
+seed:
+  - resetDemoPasswords:
+signup:
+  - register:
 booking:
   - book:
   - getBooking:
