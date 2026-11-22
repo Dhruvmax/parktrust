@@ -4,6 +4,7 @@ import 'package:serverpod_auth_idp_server/core.dart';
 import 'package:serverpod_auth_idp_server/providers/email.dart';
 import 'package:serverpod_cloud_storage/serverpod_cloud_storage.dart';
 
+import 'src/auth/demo_seed.dart';
 import 'src/cache_busting.dart';
 import 'src/generated/serverpod.dart';
 import 'src/web/routes/app_config_route.dart';
@@ -123,4 +124,7 @@ void run(List<String> args) async {
 
   // Start the server.
   await pod.start();
+
+  // Demo accounts, spaces and vehicles (idempotent).
+  await seedDemoData(pod);
 }
