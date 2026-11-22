@@ -148,7 +148,7 @@ class _CityLots extends ConsumerWidget {
         ),
         SizedBox(
           height: 240,
-          child: FlutterMap(
+          child: MapWithLocation(
             key: ValueKey('$city-${filter.category}'),
             options: MapOptions(initialCenter: center, initialZoom: 11.5),
             children: [

@@ -101,7 +101,7 @@ class _FindSpotsScreenState extends ConsumerState<FindSpotsScreen> {
                 children: [
                   SizedBox(
                     height: 210,
-                    child: FlutterMap(
+                    child: MapWithLocation(
                       key: ValueKey('$_query-${spaceList.length}-${lotList.length}-${mine.length}'),
                       options: MapOptions(initialCenter: first, initialZoom: 11.5),
                       children: [
